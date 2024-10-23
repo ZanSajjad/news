@@ -64,7 +64,7 @@ export default function Navbar(props) {
                 onClick={props.togglemode}
                 style={{ height: "24px" }}
                 src={props.mode==="light"?"/moon-stars.svg":"/brightness-high-fill.svg"}
-                alt="darkmode"
+                alt={props.mode==="light"?"enable darkmode":"enable light mode"}
               />
               <Link to="/login">
               <button  className="btn rounded-pill btn-primary me-2 px-3 ">
