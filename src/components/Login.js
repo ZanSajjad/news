@@ -9,9 +9,9 @@ export default function Login() {
 
   return (
     <>
-      <div className="container-fluid bg-greenish">
-        <div className="form rounded-5">
-          <form >
+      <div className=" container-fluid d-flex justify-content-center align-items-center vh-100  ">
+        <div className="form  rounded-5 bg-dark text-white">
+          <form>
             <h1 className="text-center mb-4 font-32 fw-bold text-primary">
               LOGIN
             </h1>
@@ -56,7 +56,7 @@ export default function Login() {
                 LOGIN
               </button>
             </div>
-            <p className="pt-4 text-center">
+            <p className="pt-4 account text-center">
               Don't have an account <Link to="/signup">Signup</Link>
             </p>
           </form>

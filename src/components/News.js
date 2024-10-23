@@ -2,25 +2,24 @@ import React, { useEffect, useState, useCallback } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 
-
 export default function News(props) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const apikey = process.env.REACT_APP_NEWS_API;
 
   // Use useCallback to memoize the updateNews function
-  const updateNews = useCallback(async () => {
-    const url = `https://newsapi.org/v2/top-headlines?&category=${props.category}&apiKey=78684a2383824e2fab225ab19ccd5785&page=${page}&pageSize=${props.pagesize}`;
 
+  const updateNews = useCallback(async () => {
+    const url = `https://newsapi.org/v2/top-headlines?&category=${props.category}&apiKey=${apikey}&page=${page}&pageSize=${props.pagesize}`;
     try {
       const data = await fetch(url);
       const parsedData = await data.json();
 
       if (parsedData.status === "ok") {
-        const filteredArticles = parsedData.articles;
-        setArticles(filteredArticles);
+        setArticles(parsedData.articles);
         setTotalResults(parsedData.totalResults);
         setError(null);
       } else {
@@ -32,13 +31,11 @@ export default function News(props) {
     } finally {
       setLoading(false);
     }
-  }, [page, props.category, props.pagesize]); // Add dependencies
-
+  }, [page, props.category, props.pagesize, apikey]); // Add dependencies
 
   useEffect(() => {
     updateNews();
     window.scrollTo(0, 0);
-
   }, [updateNews]);
 
   const handleNext = () => {
@@ -53,9 +50,12 @@ export default function News(props) {
     }
   };
 
+
   return (
     <div className="container">
-      <h1 className="text-center mb-4" style={{ marginTop: "7rem" }}>News Top-Headlines</h1>
+      <h1 className="text-center mb-4" style={{ marginTop: "7rem" }}>
+        News Top-Headlines
+      </h1>
       {loading && <Spinner />}
 
       <div className="row">
@@ -64,23 +64,34 @@ export default function News(props) {
         ) : (
           articles.map((element) => (
             <div className="col-lg-4 col-md-6" key={element.url}>
-              <NewsItem
+              <NewsItem 
                 title={element.title ? element.title : "undefined"}
                 description={element.description}
                 img={element.urlToImage}
                 imgUrl={element.url}
+                posted={element.publishedAt}
+                source={element.source.name}
+                mode={props.mode}
               />
             </div>
           ))
         )}
       </div>
 
-      {!error && (
-        <div className="d-flex justify-content-between w-100 fw-bold my-4 container">
-          <button className="btn btn-lg btn-primary p-2 font-xl" onClick={handlePrev} disabled={page === 1}>
+      {!loading && !error && (
+        <div className="d-flex justify-content-between w-100 fw-bold my-5 container " >
+          <button
+            className="btn btn-lg btn-primary p-2 font-xl"
+            onClick={handlePrev}
+            disabled={page === 1}
+          >
             Previous
           </button>
-          <button className="btn btn-lg btn-primary px-3" onClick={handleNext} disabled={page >= Math.ceil(totalResults / props.pagesize)}>
+          <button
+            className="btn btn-lg btn-primary px-3"
+            onClick={handleNext}
+            disabled={page >= Math.ceil(totalResults / props.pagesize)}
+          >
             Next
           </button>
         </div>

@@ -2,17 +2,14 @@ import React from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
 
-
-export default function Navbar() {
-
-
+export default function Navbar(props) {
   return (
     <>
-      <nav className="navbar navbar-expand-lg   navbar-dark fixed-top px-0 p-4">
-        <div className="container-lg">
-          <Link className="navbar-brand" to="/">
+      <nav className="navbar navbar-expand-lg navbar-dark positon-relative fixed-top bg-light py-4" >
+        <div className="container-xxl">
+          <Link className="navbar-brand pb-0 me-5 ms-2" to="/">
             Navbar
-          </Link>
+            </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -21,22 +18,12 @@ export default function Navbar() {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
-          ><span
-          className="navbar-toggler-icon"
-          style={{
-            color: 'white',
-            borderColor: 'white'
-          }}
-        ></span>
-        
+          >
+            <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-              <li className="nav-item ">
-                <Link className="nav-link" to="/general">
-                  General
-                </Link>
-              </li>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className="nav-link" to="/business">
                   Business
@@ -59,7 +46,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/sport">
+                <Link className="nav-link" to="/sports">
                   Sport
                 </Link>
               </li>
@@ -68,20 +55,27 @@ export default function Navbar() {
                   Technology
                 </Link>
               </li>
-              
             </ul>
-          
-            <div>
+
+            <div className="darkMode" >
+              <img
+                className="pe-4  "
+                
+                onClick={props.togglemode}
+                style={{ height: "24px" }}
+                src={props.mode==="light"?"/moon-stars.svg":"/brightness-high-fill.svg"}
+                alt="darkmode"
+              />
               <Link to="/login">
-                <button className="btn btn-primary rounded-pill px-3   px-4">
-                  Login
-                </button>
+              <button  className="btn rounded-pill btn-primary me-2 px-3 ">
+                LOGIN
+              </button>
               </Link>
               <Link to="/signup">
-                <button className="btn btn-primary rounded-pill px-3  mx-2 px-4">
-                  Signup
-                </button>
+
+              <button className="btn rounded-pill btn-primary px-3">SIGNUP</button>
               </Link>
+
             </div>
           </div>
         </div>
